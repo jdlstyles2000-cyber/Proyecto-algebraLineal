@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculador de Áreas Geométrica-Matricial</title>
+    <style>
+        /* Estilos omitidos por brevedad, asumiendo que el usuario los tiene */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 40px 20px; 
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #0056b3;
+        }
+        h1 { 
+            color: #0056b3; 
+            text-align: center;
+            border-bottom: 2px solid #5cb85c;
+            padding-bottom: 10px;
+        }
+        h2 { color: #d9534f; margin-top: 25px; } 
+        
+        .point-input { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .point-input label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        input[type="number"] { 
+            width: 70px; 
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        button {
+            background-color: #007bff; 
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #0056b3; }
+
+        .output-box { 
+            margin-top: 30px; 
+            padding: 20px; 
+            background-color: #f0f8ff; 
+            border-radius: 8px; 
+            border-left: 5px solid #5cb85c;
+        }
+        .output-box strong { font-size: 1.1em; color: #0056b3; }
+
+        .procedure-matrix {
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            background-color: #333;
+            color: #ffc107; 
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 1.1em;
+            overflow-x: auto;
+        }
+        .area-final {
+            font-size: 2.0em;
+            color: #d9534f; 
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px dashed #d9534f;
+            border-radius: 5px;
+        }
+        .vector-result {
+            font-size: 1.5em;
+            color: #5cb85c; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📐 Calculador de Áreas Geométrica-Matricial (Triángulo 3D)</h1>
+    <p>Calcule el área del triángulo definido por tres puntos $P_1$, $P_2$, y $P_3$ usando el Producto Cruz $\mathbf{u} \times \mathbf{v}$.</p>
+
+    <h2>1. Ingrese los Vértices del Triángulo ($P_i$)</h2>
+    <div class="point-input">
+        <strong>P1 (Origen Base):</strong>
+        <label for="p1x">x\textsubscript{1}:</label> <input type="number" id="p1x" value="1">
+        <label for="p1y">y\textsubscript{1}:</label> <input type="number" id="p1y" value="0">
+        <label for="p1z">z\textsubscript{1}:</label> <input type="number" id="p1z" value="0">
+    </div>
+    <div class="point-input">
+        <strong>P2 (Vértice 2):</strong>
+        <label for="p2x">x\textsubscript{2}:</label> <input type="number" id="p2x" value="3">
+        <label for="p2y">y\textsubscript{2}:</label> <input type="number" id="p2y" value="0">
+        <label for="p2z">z\textsubscript{2}:</label> <input type="number" id="p2z" value="0">
+    </div>
+    <div class="point-input">
+        <strong>P3 (Vértice 3):</strong>
+        <label for="p3x">x\textsubscript{3}:</label> <input type="number" id="p3x" value="1">
+        <label for="p3y">y\textsubscript{3}:</label> <input type="number" id="p3y" value="2">
+        <label for="p3z">z\textsubscript{3}:</label> <input type="number" id="p3z" value="4">
+    </div>
+    
+    <button onclick="calcularAreaTriangulo()">Calcular Área y Procedimiento</button>
+
+    <div class="output-box">
+        <h2>2. Área del Triángulo: Resultado Final</h2>
+        <div id="resultado_area" class="area-final"></div>
+        
+        <p><strong>Vector Resultante del Producto Cruz:</strong></p>
+        <div id="resultado_vector_cruz" class="vector-result"></div>
+
+        <h2>3. Procedimiento Paso a Paso (Matricial y Vectorial)</h2>
+        <p><strong>Paso A: Vectores Base ($\mathbf{u} = P_2 - P_1$, $\mathbf{v} = P_3 - P_1$):</strong></p>
+        <div id="procedimiento_vectores" class="procedure-matrix"></div>
+
+        <p><strong>Paso B: Producto Cruz ($\mathbf{u} \times \mathbf{v}$ - Detalle Matricial):</strong></p>
+        <div id="procedimiento_cruz" class="procedure-matrix"></div>
+        
+        <p><strong>Paso C: Magnitud y Área:</strong></p>
+        <div id="procedimiento_magnitud" class="procedure-matrix"></div>
+    </div>
+</div>
+
+<script>
+    // ===============================================
+    // FUNCIONES DE CÁLCULO
+    // ===============================================
+
+    function obtenerPunto(prefix) {
+        const x = parseFloat(document.getElementById(prefix + 'x').value);
+        const y = parseFloat(document.getElementById(prefix + 'y').value);
+        const z = parseFloat(document.getElementById(prefix + 'z').value);
+        return [x, y, z];
+    }
+
+    function productoCruz(u, v) {
+        const cx = u[1] * v[2] - u[2] * v[1];
+        const cy = u[2] * v[0] - u[0] * v[2];
+        const cz = u[0] * v[1] - u[1] * v[0];
+        return [cx, cy, cz];
+    }
+
+    function modulo(v) {
+        return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    }
+
+    // ===============================================
+    // FUNCIÓN PRINCIPAL
+    // ===============================================
+
+    function calcularAreaTriangulo() {
+        const P1 = obtenerPunto('p1');
+        const P2 = obtenerPunto('p2');
+        const P3 = obtenerPunto('p3');
+
+        const format = (n) => n.toFixed(2);
+        const formatV = (vec) => `\u2329${format(vec[0])}, ${format(vec[1])}, ${format(vec[2])}\u232a`;
+
+        // 1. Vectores Base
+        const u = [P2[0] - P1[0], P2[1] - P1[1], P2[2] - P1[2]];
+        const v = [P3[0] - P1[0], P3[1] - P1[1], P3[2] - P1[2]];
+
+        let procVectores = 
+            `\u25CF  \uD835\uDC6A = P2 - P1 = ${formatV(P2)} - ${formatV(P1)} = ${formatV(u)}\n` +
+            `\u25CF  \uD835\uDC73 = P3 - P1 = ${formatV(P3)} - ${formatV(P1)} = ${formatV(v)}`;
+        document.getElementById('procedimiento_vectores').textContent = procVectores;
+
+        // 2. Producto Cruz
+        const vectorCruz = productoCruz(u, v);
+        
+        const vectorCruzResultado = `\uD835\uDC6A \u00D7 \uD835\uDC73 = ${formatV(vectorCruz)}`;
+        document.getElementById('resultado_vector_cruz').textContent = vectorCruzResultado;
+
+        // Detalle matricial del producto cruz
+        let procCruz =
+            `\u25CF \uD835\uDC6A \u00D7 \uD835\uDC73 = | i  j  k |\n` +
+            `              | ${format(u[0])}  ${format(u[1])}  ${format(u[2])} |\n` +
+            `              | ${format(v[0])}  ${format(v[1])}  ${format(v[2])} |\n` +
+            `\n` +
+            `  = i(${format(u[1])}*${format(v[2])} - ${format(u[2])}*${format(v[1])}) - j(${format(u[0])}*${format(v[2])} - ${format(u[2])}*${format(v[0])}) + k(${format(u[0])}*${format(v[1])} - ${format(u[1])}*${format(v[0])})\n` +
+            `  = ${formatV(vectorCruz)}`;
+        document.getElementById('procedimiento_cruz').textContent = procCruz;
+
+        // 3. Magnitud y Área
+        const magnitud = modulo(vectorCruz);
+        const areaTriangulo = 0.5 * magnitud;
+
+        // *************** LÍNEA CORREGIDA ***************
+        let procMagnitud =
+            `\u25CF Magnitud del Producto Cruz (Área del Paralelogramo):\n` +
+            `   |\uD835\uDC6A \u00D7 \uD835\uDC73| = \u221A(${format(vectorCruz[0])}^2 + ${format(vectorCruz[1])}^2 + ${format(vectorCruz[2])}^2) = ${magnitud.toFixed(4)}\n\n` +
+            `\u25CF Área del Triángulo (1/2 del Paralelogramo):\n` +
+            `   Área = 0.5 * ${magnitud.toFixed(4)} = ${areaTriangulo.toFixed(4)}`;
+        // ***********************************************
+            
+        document.getElementById('procedimiento_magnitud').textContent = procMagnitud;
+        
+        // Resultado Final
+        document.getElementById('resultado_area').textContent = `${areaTriangulo.toFixed(4)} unidades²`;
+    }
+
+    // Ejecutar al cargar la página
+    window.onload = calcularAreaTriangulo;
+</script>
+</body>
+</html>
