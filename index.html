@@ -101,26 +101,26 @@
 
 <div class="container">
     <h1>📐 Calculador de Áreas Geométrica-Matricial (Triángulo 3D)</h1>
-    <p>Calcule el área del triángulo definido por tres puntos $P_1$, $P_2$, y $P_3$ usando el Producto Cruz $\mathbf{u} \times \mathbf{v}$.</p>
+    <p>Calcule el área del triángulo definido por tres puntos <strong>P1</strong> , <strong>P2</strong> , <strong>P3</strong> usando el Producto Cruz</p>
 
-    <h2>1. Ingrese los Vértices del Triángulo ($P_i$)</h2>
+    <h2>1. Ingrese los Vértices del Triángulo (P)</h2>
     <div class="point-input">
-        <strong>P1 (Origen Base):</strong>
-        <label for="p1x">x\textsubscript{1}:</label> <input type="number" id="p1x" value="1">
-        <label for="p1y">y\textsubscript{1}:</label> <input type="number" id="p1y" value="0">
-        <label for="p1z">z\textsubscript{1}:</label> <input type="number" id="p1z" value="0">
+        <strong>P1 (Vértice 1):</strong>
+        <label for="p1x">Valor X {P1}:</label> <input type="number" id="p1x" value="1">
+        <label for="p1y">Valor Y {P1}:</label> <input type="number" id="p1y" value="0">
+        <label for="p1z">Valor Z {P1}:</label> <input type="number" id="p1z" value="0">
     </div>
     <div class="point-input">
         <strong>P2 (Vértice 2):</strong>
-        <label for="p2x">x\textsubscript{2}:</label> <input type="number" id="p2x" value="3">
-        <label for="p2y">y\textsubscript{2}:</label> <input type="number" id="p2y" value="0">
-        <label for="p2z">z\textsubscript{2}:</label> <input type="number" id="p2z" value="0">
+        <label for="p2x">Valor X {P2}:</label> <input type="number" id="p2x" value="3">
+        <label for="p2y">Valor Y {P2}:</label> <input type="number" id="p2y" value="0">
+        <label for="p2z">Valor Z {P2}:</label> <input type="number" id="p2z" value="0">
     </div>
     <div class="point-input">
         <strong>P3 (Vértice 3):</strong>
-        <label for="p3x">x\textsubscript{3}:</label> <input type="number" id="p3x" value="1">
-        <label for="p3y">y\textsubscript{3}:</label> <input type="number" id="p3y" value="2">
-        <label for="p3z">z\textsubscript{3}:</label> <input type="number" id="p3z" value="4">
+        <label for="p3x">Valor X {P3}:</label> <input type="number" id="p3x" value="1">
+        <label for="p3y">Valor Y {P3}:</label> <input type="number" id="p3y" value="2">
+        <label for="p3z">Valor Z {P3}:</label> <input type="number" id="p3z" value="4">
     </div>
     
     <button onclick="calcularAreaTriangulo()">Calcular Área y Procedimiento</button>
@@ -133,10 +133,10 @@
         <div id="resultado_vector_cruz" class="vector-result"></div>
 
         <h2>3. Procedimiento Paso a Paso (Matricial y Vectorial)</h2>
-        <p><strong>Paso A: Vectores Base ($\mathbf{u} = P_2 - P_1$, $\mathbf{v} = P_3 - P_1$):</strong></p>
+        <p><strong>Paso A: Vectores Base ((U) = P2 - P1, (V) = P3 - P1):</strong></p>
         <div id="procedimiento_vectores" class="procedure-matrix"></div>
 
-        <p><strong>Paso B: Producto Cruz ($\mathbf{u} \times \mathbf{v}$ - Detalle Matricial):</strong></p>
+        <p><strong>Paso B: Producto Cruz ((U) * (V) - Resultado De la Matriz):</strong></p>
         <div id="procedimiento_cruz" class="procedure-matrix"></div>
         
         <p><strong>Paso C: Magnitud y Área:</strong></p>
